@@ -17,11 +17,12 @@ Set `VITE_API_URL` in the client environment to override the default API origin 
 
 GitHub Pages hosts the frontend. The Express API needs a running web service, and MongoDB needs a cloud connection string; GitHub Pages cannot run the API process or database.
 
-1. Create a GitHub repository and push this project to its `main` branch. `.gitignore` excludes `.env` files and local dependencies; do not commit credentials.
-2. In Render, create a Blueprint from the repository's `render.yaml`. The API service uses the paid always-on `starter` plan so scheduled-message polling continues while the app is idle. Set `MONGO_URI` to a MongoDB Atlas connection string and `CLIENT_URL` to `https://<github-username>.github.io/<repository-name>` when Render prompts for those values.
-3. In GitHub repository settings, enable Pages with **GitHub Actions** as the publishing source.
-4. Add a repository Actions variable named `VITE_API_URL` with the deployed Render URL ending in `/api`, for example `https://spendwise-api.onrender.com/api`.
-5. Push to `main`. The workflow builds the Vite app and publishes it to `https://<github-username>.github.io/<repository-name>`.
+1. Push the project to the repository's `main` branch. `.gitignore` excludes `.env` files and local dependencies; do not commit credentials.
+2. Create a MongoDB Atlas database and copy its connection string. In Render, create a Blueprint from this repository's `render.yaml`; set `MONGO_URI` to the Atlas connection string and `CLIENT_URL` to the full website URL, such as `https://<github-username>.github.io/<repository-name>`.
+3. The Render API service uses the paid always-on `starter` plan so scheduled-message polling continues while the app is idle. Wait for Render to show the API as live and copy its URL.
+4. In GitHub repository **Settings → Secrets and variables → Actions → Variables**, add `VITE_API_URL` with the API URL ending in `/api`, for example `https://spendwise-api.onrender.com/api`.
+5. In **Settings → Pages**, select **GitHub Actions** as the publishing source. Run the **Deploy website to GitHub Pages** workflow from the Actions tab, or push another commit to `main`.
+6. The workflow publishes the website at `https://<github-username>.github.io/<repository-name>`.
 6. To enable scheduled email/SMS/WhatsApp delivery, add the relevant SMTP or Twilio environment variables to the Render API service. Keep these values in Render's environment settings, not in GitHub.
 
 The frontend workflow is in `.github/workflows/deploy-website.yml`. Deep links are handled by the generated Pages `404.html` fallback. GitHub Actions variables and Pages publishing are documented by [GitHub Pages custom workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages); the backend Blueprint is described in [Render's Blueprint documentation](https://render.com/docs/blueprint-spec).

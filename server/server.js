@@ -15,7 +15,14 @@ const app = express();
 const allowedClientOrigins = (process.env.CLIENT_URL || '')
   .split(',')
   .map((origin) => origin.trim())
-  .filter(Boolean);
+  .filter(Boolean)
+  .map((clientUrl) => {
+    try {
+      return new URL(clientUrl).origin;
+    } catch {
+      return clientUrl;
+    }
+  });
 app.use(
   cors({
     origin(origin, callback) {
