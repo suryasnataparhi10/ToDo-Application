@@ -1,0 +1,22 @@
+# Secrets and local configuration
+.env
+.env.*
+!**/.env.example
+server/.env
+client/.env
+mobile/.env
+
+# Installed dependencies and generated output
+**/node_modules/
+client/dist/
+mobile/.expo/
+mobile/dist/
+mobile/android/
+mobile/ios/
+mobile/web-build/
+*.log
+
+# Local editor and OS files
+.DS_Store
+Thumbs.db
+.vscode/
